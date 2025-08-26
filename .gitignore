@@ -120,3 +120,5 @@ data
 credentials
 *.npy
 lightning_logs/
+
+*~

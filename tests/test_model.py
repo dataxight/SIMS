@@ -17,9 +17,9 @@ from os.path import abspath, dirname, join
 
 sys.path.append(join(dirname(abspath(__file__)), "..", "src"))  # hacky, to fix pathing
 
-from data import *
-from lightning_train import *
-from model import *
+from scsims.data import *
+from scsims.lightning_train import *
+from scsims.model import *
 
 
 class TestModel(unittest.TestCase):

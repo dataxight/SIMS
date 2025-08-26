@@ -181,6 +181,9 @@ def clean_sample(
     else:
         sample = sample[indices]  # in the case of a 1d array (single row)
 
+    if not isinstance(sample, torch.Tensor):
+        sample = torch.from_numpy(sample)
+        
     return sample
 
 

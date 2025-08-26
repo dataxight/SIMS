@@ -11,7 +11,8 @@ import torch.nn.functional as F
 from pytorch_tabnet.tab_network import TabNet
 from pytorch_tabnet.utils import create_explain_matrix
 from scipy.sparse import csc_matrix
-from torchmetrics.functional.classification.stat_scores import _stat_scores_update
+#from torchmetrics.functional.classification.stat_scores import _stat_scores_update
+from torchmetrics.classification import MulticlassStatScores
 from tqdm import tqdm
 import torch.utils.data
 from scipy.sparse import csr_matrix
@@ -114,6 +115,7 @@ class SIMSClassifier(pl.LightningModule):
             virtual_batch_size=virtual_batch_size,
             momentum=momentum,
             mask_type=mask_type,
+            group_attention_matrix=torch.Tensor([1,input_dim])
         )
 
         print(f"Initializing explain matrix")
@@ -127,6 +129,10 @@ class SIMSClassifier(pl.LightningModule):
 
         self._inference_device = "cuda:0" if torch.cuda.is_available() else "cpu"
         self.temperature = torch.nn.Parameter(torch.ones(1) * 1.5)
+
+        self.stat_scores = MulticlassStatScores(num_classes=self.output_dim,
+                                                average="macro")
+        
 
     def forward(self, x):
         logits, M_loss = self.network(x)
@@ -147,12 +153,9 @@ class SIMSClassifier(pl.LightningModule):
         if probs.shape[-1] == 2:
             probs = probs[:, 1]
 
-        tp, fp, _, fn = _stat_scores_update(
+        tp, fp, tn, fn, sup = self._stat_scores(
             preds=logits,
-            target=y,
-            num_classes=self.output_dim,
-            reduce="macro",
-        )
+            target=y)
 
         return {
             "loss": loss,

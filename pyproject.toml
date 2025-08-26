@@ -1,0 +1,40 @@
+[project]
+name = "SIMS"
+version = "0.1.0"
+description = "SIMS: Scalable, Interpretable Models for Cell Annotation of large scale single-cell RNA-seq data"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "anndata>=0.12.2",
+    "boto3>=1.40.17",
+    "pytorch-lightning>=2.5.3",
+    "pytorch-tabnet>=4.1.0",
+    "scanpy>=1.11.4",
+    "scikit-learn>=1.7.1",
+    "torch>=2.8.0",
+    "wandb>=0.21.1",
+]
+
+
+[dependency-groups]
+dev = [
+    "pytest>=7.2.0",
+    "pre-commit>=2.20.0",
+    "tox-uv>=1.11.3",
+    "deptry>=0.23.0",
+    "mypy>=0.991",
+    "pytest-cov>=4.0.0",
+    "ruff>=0.11.5",
+    "mkdocs>=1.4.2",
+    "mkdocs-material>=8.5.10",
+    "mkdocstrings[python]>=0.26.1",
+]
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+log_cli = true
+log_cli_level = "WARNING"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
