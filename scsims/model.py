@@ -1,29 +1,3 @@
-from functools import partial
-from typing import Any, Callable, Dict, Union
-
-import os
-import anndata as an
-import numpy as np
-import pandas as pd
-import pytorch_lightning as pl
-import torch
-import torch.nn.functional as F
-from pytorch_tabnet.tab_network import TabNet
-from pytorch_tabnet.utils import create_explain_matrix
-from scipy.sparse import csc_matrix
-#from torchmetrics.functional.classification.stat_scores import _stat_scores_update
-from torchmetrics.classification import MulticlassStatScores
-from tqdm import tqdm
-import torch.utils.data
-from scipy.sparse import csr_matrix
-from scsims.data import CollateLoader
-from scsims.inference import DatasetForInference
-from scsims.temperature_scaling import _ECELoss
-from torchmetrics import Accuracy, F1Score, Precision, Recall, Specificity
-from sklearn.preprocessing import LabelEncoder
-
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
 import lightning as L
 import torch
 import torch.nn.functional as F
