@@ -2,6 +2,8 @@ import lightning as L
 import torch
 import torch.nn.functional as F
 from torchmetrics import MetricCollection, Accuracy, Precision, Recall, F1Score, Specificity
+from pytorch_tabnet.tab_network import TabNet
+from pytorch_tabnet.utils import create_explain_matrix
 
 class SIMSClassifier(L.LightningModule):
     def __init__(
