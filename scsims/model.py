@@ -62,6 +62,8 @@ class SIMSClassifier(L.LightningModule):
             "patience": 5,
         }
 
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
         # Network
         self.network = TabNet(
             input_dim=input_dim,
@@ -79,8 +81,9 @@ class SIMSClassifier(L.LightningModule):
             virtual_batch_size=virtual_batch_size,
             momentum=momentum,
             mask_type=mask_type,
-            group_attention_matrix=torch.ones(1, input_dim)  # FIXED shape
+            group_attention_matrix=torch.ones(1, input_dim, device=device)  # FIXED shape
         )
+        
 
         # Explainer
         if not no_explain:
